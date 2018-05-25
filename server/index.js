@@ -5,7 +5,8 @@ var cors = require('cors')
 var port = 3000
 
 app.use(cors())
-//fire up database connection
+
+//Fire up database connection
 
 require('./server-assets/db/mlab-config')
 
@@ -13,13 +14,12 @@ require('./server-assets/db/mlab-config')
 
 app.use(bp.json())
 app.use(bp.urlencoded({extended: true}))
+
 //code above is always the same
 
-
 let auth = require('./server-assets/auth/routes')
-app.use(auth.session)
 app.use(auth.router)
-
+app.use(auth.session)
 
 ///gate keeper must login to access any route below this code
 

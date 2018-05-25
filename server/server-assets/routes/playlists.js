@@ -1,5 +1,7 @@
 var router = require('express').Router()
 var Playlists = require('../models/playlist')
+var Users = require('../models/user')
+var sessions = require('../auth/session')
 
 router.get('/api/playlists', (req, res, next) => {
     Playlists.find({})
@@ -11,7 +13,7 @@ router.get('/api/playlists', (req, res, next) => {
     })
 })
 
-router.get('/api/playlists/:playlistId', (req, res, next) => {
+router.get('/api/playlists/:id', (req, res, next) => {
     if (!req.params.listId) {
         Playlists.find({}).then(playlists => {
             res.send(playlists)
@@ -29,13 +31,13 @@ router.post('/api/playlists', (req, res, next) => {
     })
 })
 
-router.post('/api/playlists/:playlistId', (req, res, next) => {
+router.post('/api/playlists/:id', (req, res, next) => {
     Playlists.findByIdAndUpdate(req.params.playlistId, req.body).then(playlist => {
         res.send(playlist)
     })
 })
 
-router.put('/api/playlists/:playlistId/songs', (req, res, next) => {
+router.put('/api/playlists/:id/songs', (req, res, next) => {
     Playlists.findById(req.params.playlistId).then(playlist => {
         playlist.songs.$addToSet(req.body)
         playlist.save()
@@ -58,3 +60,4 @@ router.delete('/api/playlists/:id', (req, res, next) => {
 module.exports = {
     router
 }
+

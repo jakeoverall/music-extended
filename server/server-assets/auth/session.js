@@ -21,4 +21,5 @@ var session = expressSession({
   saveUninitialized: true
 });
 
+  //@ts-ignore
 module.exports = session;
