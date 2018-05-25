@@ -9,6 +9,13 @@
 export default {
   name: 'App'
 }
+// export default {
+//   getTracks() { },
+//   addTrack() { },
+//   removeTrack() { },
+//   promoteTrack() { },
+//   demoteTrack() { }
+// }
 </script>
 
 <style>

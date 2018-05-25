@@ -17,20 +17,20 @@ app.use(bp.urlencoded({extended: true}))
 
 //code above is always the same
 
-let auth = require('./server-assets/auth/routes')
-app.use(auth.router)
-app.use(auth.session)
+//let auth = require('./server-assets/auth/routes')
+//app.use(auth.router)
+//app.use(auth.session)
 
 ///gate keeper must login to access any route below this code
 
-app.use((req, res, next) => {
-    if (!req.session.uid) {
-        return res.status(401).send({
-            error: 'please login to continue'
-        })
-    }
-    next()
-})
+// app.use((req, res, next) => {
+//     if (!req.session.uid) {
+//         return res.status(401).send({
+//             error: 'please login to continue'
+//         })
+//     }
+//     next()
+// })
 
 //import routes
 

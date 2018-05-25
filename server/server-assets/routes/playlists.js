@@ -1,7 +1,7 @@
 var router = require('express').Router()
 var Playlists = require('../models/playlist')
 var Users = require('../models/user')
-var sessions = require('../auth/session')
+//var sessions = require('../auth/session')
 
 router.get('/api/playlists', (req, res, next) => {
     Playlists.find({})
