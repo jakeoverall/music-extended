@@ -5,11 +5,6 @@
 // let loginError = new Error('Bad Email or Password')
 
 // router.post('/register', (req, res) => {
-//     if (req.body.password.length < 5) {
-//         return res.status(400).send({
-//             error: 'Password must be at least 6 characters'
-//         })
-//     }
 //     req.body.password = Users.generateHash(req.body.password)
 //     Users.create(req.body)
 //         .then(user => {
@@ -52,25 +47,27 @@
 // router.delete('/logout', (req, res) => {
 //     req.session.destroy(() => {
 //         res.send({
-//             message: 'You have successfully been logged out. Please come back soon!'
+//             message: 'You have successfully logged out. Please come back soon!'
 //         })
-
 //     })
 // })
 
 // router.get('/authenticate', (req, res) => {
-//     Users.findById(req.session.uid)
-//       .then(user => {
-//         if (!user) {
-//           return res.status(401).send({
-//             error: 'Please login to continue'
-//           })
-//         }
-//         delete user._doc.password
-//         res.send(user)
-//       }).catch(err => {
-//         res.status(500).send(err)
+//     Users.findById(req.session.uid).then(user => {
+//       req.session.uid = user.id;
+//       user.password = null
+//       delete user.password
+//       if (!user) {
+//         return res.status(401).send({ "error": "Please Login" })
+//       }
+//       return res.send({
+//         data: user
 //       })
+//     }).catch(err => {
+//       return res.status(500).send({
+//         error: 'an error occurred'
+//       })
+//     })
 //   })
 
 // module.exports = {
