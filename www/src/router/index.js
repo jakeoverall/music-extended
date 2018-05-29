@@ -11,10 +11,10 @@ export default new Router({
       name: 'Home',
       component: Home
     },
-    {
-      path: '/songDetails',
-      name: 'SongDetails',
-      component: SongDetails
-    }
+    // {
+    //   path: '/songDetails',
+    //   name: 'SongDetails',
+    //   component: SongDetails
+    // }
   ]
 })
