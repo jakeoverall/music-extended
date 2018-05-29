@@ -1,20 +1,26 @@
-let mongoose = require('mongoose')
-let Schema = mongoose.Schema
-let ObjectId = Schema.Types.ObjectId
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
+//var ObjectId = Schema.Types.ObjectId
 
-let schemaName = 'Playlist'
+var schemaName = 'Playlist'
 
-let songSchema = new Schema({
-    title: {type: String, required: true}
+var songSchema = new Schema({
+    title: {type: String, required: true},
+    albumArt: {type: String, required: true},
+    artist: {type: String, required: true},  //don't need seperate model for songSchema
+    album: {type: String, required: true},
+    preview: {type: String, required: true},
+    price: {type: String, required: true},
 })
 
-let schema = new Schema({
-    title: String,
-    songs: [songSchema]
+var playlist = new Schema({
+    title: {type: String, required: true},
+    songs: [songSchema]       //schema inside schema to enforce all properties
 })
 
-schema.pre('save', function(next){
+playlist.pre('save', function(next){  //will mark it as always changed so it saves in case it doesn't catch it
     this.markModified('songs')
+    next()
 })
 
-module.exports = mongoose.model(schemaName, schema)
+module.exports = mongoose.model(schemaName, playlist)

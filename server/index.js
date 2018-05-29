@@ -17,6 +17,7 @@ app.use(bp.urlencoded({extended: true}))
 
 //code above is always the same
 
+
 //let auth = require('./server-assets/auth/routes')
 //app.use(auth.router)
 //app.use(auth.session)
@@ -32,9 +33,11 @@ app.use(bp.urlencoded({extended: true}))
 //     next()
 // })
 
+
 //import routes
 
 var playlist = require('./server-assets/routes/playlists')
+
 app.use(playlist.router)
 
 //catch all

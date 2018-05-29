@@ -1,55 +1,69 @@
 var router = require('express').Router()
-var Playlists = require('../models/playlist')
+var Playlist = require('../models/playlist')
 //var Users = require('../models/user')
 //var sessions = require('../auth/session')
 
-router.get('/api/playlists', (req, res, next) => {
-    Playlists.find({})
+
+                        //? says id is optional 
+router.get('/api/playlists/:id?', (req, res) => {
+    //if passed id, find by id
+    if (req.params.id) {
+        Playlist.findById(req.params.id)
+            .then(playlist => {
+                res.send(playlist)
+        })
+            .catch(err=>{
+                return res.status(404).send({'error': 'No playlist at that Id'})
+            })
+    }
+    //if no id find all
+    Playlist.find({})
     .then(playlists => {
-        res.status(200).send(playlists)
+        return res.send(playlists)
+})
+    .catch(err=>{
+        return res.status(404).send({'error': err})
     })
-    .catch(err => {
+})
+
+//creates new playlist
+router.post('/api/playlists', (req, res) => {
+            //req.body = title and song
+    Playlist.create(req.body)
+    .then(newPlaylist => {
+        return res.send(newPlaylist)
+    })
+    .catch(err=>{
+        return res.status(400).send(err)
+    })
+})
+
+//adds a single song   req.body will be a single song object
+router.put('/api/playlists/:id/songs', (req, res) => {
+    Playlist.findById(req.params.id)
+    .then(function(playlist){
+        playlist.songs.addToSet(req.body)
+        playlist.save()
+    })
+    .catch(err=>{
         res.status(400).send(err)
     })
 })
 
-router.get('/api/playlists/:id', (req, res, next) => {
-    if (!req.params.listId) {
-        Playlists.find({}).then(playlists => {
-            res.send(playlists)
-        })
-    }else{
-        Playlists.findById(req.params.playlistId).then(playlist => {
-            res.send(playlist)
-        })
-    }
-})
-
-router.post('/api/playlists', (req, res, next) => {
-    Playlists.create(req.body).then(playlist => {
+//update entire song array from entire playlist
+router.put('/api/playlists/:id', (req, res) => {
+    Playlist.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(playlist => {
         res.send(playlist)
     })
-})
-
-router.post('/api/playlists/:id', (req, res, next) => {
-    Playlists.findByIdAndUpdate(req.params.playlistId, req.body).then(playlist => {
-        res.send(playlist)
+    .catch(err=>{
+        res.status(400).send(err)
     })
 })
 
-router.put('/api/playlists/:id/songs', (req, res, next) => {
-    Playlists.findById(req.params.playlistId).then(playlist => {
-        playlist.songs.$addToSet(req.body)
-        playlist.save()
-        .then(() => {
-            res.send(playlist)
-        })
-    })
-})
-
-router.delete('/api/playlists/:id', (req, res, next) => {
-    Playlists.findByIdAndRemove(req.params.id)
-    .then(data => {
+router.delete('/api/playlists/:id', (req, res) => {
+    Playlist.findByIdAndRemove(req.params.id)
+    .then(oldPlaylist => {
         res.send("Successfully Deleted Song")
     })
     .catch(err => {
@@ -57,7 +71,5 @@ router.delete('/api/playlists/:id', (req, res, next) => {
     })
 })
 
-module.exports = {
-    router
-}
+module.exports = {router} //sends info to index.js
 
