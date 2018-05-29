@@ -4,7 +4,7 @@ var Playlist = require('../models/playlist')
 //var sessions = require('../auth/session')
 
 
-                        //? says id is optional 
+                            //? says id is optional 
 router.get('/api/playlists/:id?', (req, res) => {
     //if passed id, find by id
     if (req.params.id) {
@@ -28,7 +28,7 @@ router.get('/api/playlists/:id?', (req, res) => {
 
 //creates new playlist
 router.post('/api/playlists', (req, res) => {
-            //req.body = title and song
+                  //req.body = title and song
     Playlist.create(req.body)
     .then(newPlaylist => {
         return res.send(newPlaylist)
@@ -38,7 +38,7 @@ router.post('/api/playlists', (req, res) => {
     })
 })
 
-//adds a single song   req.body will be a single song object
+//adds a single song - req.body will be a single song object
 router.put('/api/playlists/:id/songs', (req, res) => {
     Playlist.findById(req.params.id)
     .then(function(playlist){

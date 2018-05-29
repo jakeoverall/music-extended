@@ -18,7 +18,7 @@ var playlist = new Schema({
     songs: [songSchema]       //schema inside schema to enforce all properties
 })
 
-playlist.pre('save', function(next){  //will mark it as always changed so it saves in case it doesn't catch it
+playlist.pre('save', function(next){ //will mark it as always changed so it saves in case it doesn't catch it
     this.markModified('songs')
     next()
 })
