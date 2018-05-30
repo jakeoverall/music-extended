@@ -53,7 +53,8 @@ export default new vuex.Store({
 
     actions: {
         addSong({ commit, dispatch, state }, song) {
-            state.activePlaylist.songs.push(song)
+            debugger //error here you dont have an activePlaylist
+            state.activePlaylist.songs.push(song) 
             server.put('/playlist/' + state.activePlaylist._id, state.activePlaylist)
                 .then(newList => {
                     commit('addSong', newList)

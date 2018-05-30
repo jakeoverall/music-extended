@@ -7,21 +7,21 @@
       </form>
     </div>
     <div>
-      <button :v-for="playlist in playlists" @click="activePlaylist(playlist)">{{playlist.title}}</button>
+      <!-- <button :v-for="playlist in playlists" @click="activePlaylist(playlist)">{{playlist.title}}</button> -->
     </div>
 
 <div class="songs-section">
 <div class="results">
         <h4>Results for {{title}}:</h4>
         <div class="row">
-          <songs :list="songs" button-text="Add to playlist" :handle-button-click="addSongToPlaylist" @submit.prevent="addSongToPlaylist"></songs>
+          <songs :list="songs" button-text="Add to playlist" :handle-button-click="addSong"></songs>
         </div>
       </div>
       
       <hr>
       <div class="playlist">
         <div class="row">
-          <songs :list="playlists" button-text="Remove from playlist" :handle-button-click="removeSongFromPlaylist"></songs>
+          <songs :list="playlists" button-text="Remove from playlist" :handle-button-click="removeSong"></songs>
         </div>
       </div>
     </div>
@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       query: "",
-      title: ""
+      title: "",
+      playlist: {}
     };
   },
 
@@ -52,7 +53,7 @@ export default {
     songs() {
       return this.$store.state.songs;
     },
-    playlist() {
+    playlists() {
       return this.$store.state.playlist;
     },
     activeSong() {
@@ -61,7 +62,7 @@ export default {
   },
 
   methods: {
-    findSong() {
+    findSongs() {
       this.$store.dispatch("findSong", this.query);
       this.title = this.query;
       this.query = "";
